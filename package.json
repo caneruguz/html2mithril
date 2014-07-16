@@ -1,6 +1,6 @@
 {
-  "name": "mithrilify",
-  "version": "0.0.0",
+  "name": "html2mithril",
+  "version": "0.1.0",
   "description": "Convert raw html files to Mithril views with m() syntax",
   "main": "index.js",
   "scripts": {
