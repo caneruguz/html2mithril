@@ -1,4 +1,4 @@
-mithrilify
+html2mithril
 ==========
 
 This is a small library that is intended to be used with gulp to convert raw html files into Mithril's view.js files.
