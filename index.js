@@ -20,7 +20,6 @@ function mithrilify(obj, postRender) {
 
     // Creating a stream through which each file will pass
     var stream = through.obj(function(file, enc, callback) {
-        //console.log(String(file.contents));
 
         var source = String(file.contents);
         $ = cheerio.load('<div></div>');
@@ -30,21 +29,22 @@ function mithrilify(obj, postRender) {
             if (markup.indexOf("<!doctype") > -1) return [new DOMParser().parseFromString(markup, "text/html").childNodes[1]]
             //var container = window.document.createElement("div");
             //container.insertAdjacentHTML("beforeend", markup);
-            $("div").html(markup);
+            var newDiv = $("div"); 
+            newDiv.html(markup);
             //console.log($("div").children());
-            return $("div").children();
+            return newDiv.children();
         }
         templateConverter.VirtualFragment = function recurse(domFragment) {
             var virtualFragment = [];
 
                 domFragment.each(function(){
-                    if(this.type == "text"){
-                        virtualFragment.push(this.data);
-                    } else {
-                        var attrs = this.attribs;
-                        virtualFragment.push({tag: this.name.toLowerCase(), attrs: attrs, children: recurse($(this).children())});
-
+                    if(this.prev){
+                        if(this.prev.type == "text"){
+                            virtualFragment.push(this.prev.data);
+                        }
                     }
+                    var attrs = this.attribs;
+                    virtualFragment.push({tag: this.name.toLowerCase(), attrs: attrs, children: recurse($(this).children())});
                 })
 
             return virtualFragment;
